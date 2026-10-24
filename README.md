@@ -1,6 +1,8 @@
 # 道友 · DaoYou
 
-**把 AI 朋友养在家里的电脑上，用手机 QQ 随时和它聊天。**
+**把 AI 朋友养在家里的电脑上，用手机 QQ 随时和她聊天。**
+
+默认聊天人格是 **「星糖」**：温暖、灵动、善于倾听，也能认真聊技术。DaoYou 是项目名称，星糖是可替换的聊天角色。你可以在 [人格模板](persona/daoyou.md) 中自由修改名字、性格和表达习惯。
 
 DaoYou 是一个轻量部署整合工程，复用 [NapCat](https://github.com/NapNeko/NapCat-Docker)（QQ 消息收发）、[AstrBot](https://github.com/AstrBotDevs/AstrBot)（Agent、人格、模型配置）和 [LivingMemory](https://github.com/lxfight-s-Astrbot-Plugins/astrbot_plugin_livingmemory)（可选长期记忆）。
 
@@ -46,7 +48,7 @@ cd DaoYou
 | --- | --- | --- |
 | QQ 私聊 | NapCat + AstrBot | 配置已编写，待真实账号验证 |
 | 任意支持的模型 API | AstrBot Provider | 在 WebUI 自行配置 |
-| 自然中文聊天 | 自定义人格模板 | 模板已提供 |
+| 温暖自然的中文聊天 | 星糖人格模板（可自定义） | 已提供 |
 | 跨天记忆 | LivingMemory | 需要配置 LLM + Embedding |
 | 家用电脑持续运行 | Docker Compose | 自动重启策略已配置，需操作系统保持开机 |
 | 备份 | 本地脚本 | 已提供 |
