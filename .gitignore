@@ -1,0 +1,21 @@
+# Never publish conversations, memory, QQ login sessions, or credentials.
+.env
+.env.*
+!.env.example
+/data/
+/ntqq/
+/napcat/
+/backups/
+/logs/
+*.db
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+*.token
+*.secret
+*.key
+*.pem
+__pycache__/
+.pytest_cache/
+.DS_Store

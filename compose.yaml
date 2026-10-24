@@ -1,0 +1,43 @@
+# DaoYou: home-hosted QQ AI companion; based on NapCat official AstrBot compose.
+services:
+  napcat:
+    image: mlikiowa/napcat-docker:latest
+    container_name: daoyou-napcat
+    restart: unless-stopped
+    environment:
+      NAPCAT_UID: ${NAPCAT_UID:-1000}
+      NAPCAT_GID: ${NAPCAT_GID:-1000}
+      MODE: astrbot
+    ports:
+      - "127.0.0.1:6099:6099"
+    volumes:
+      - ./data:/AstrBot/data
+      - ./napcat/config:/app/napcat/config
+      - ./ntqq:/app/.config/QQ
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks: [daoyou]
+  astrbot:
+    image: soulter/astrbot:latest
+    container_name: daoyou-astrbot
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+    ports:
+      - "127.0.0.1:6185:6185"
+    volumes:
+      - ./data:/AstrBot/data
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks: [daoyou]
+networks:
+  daoyou:
+    driver: bridge
