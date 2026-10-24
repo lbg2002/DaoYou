@@ -27,17 +27,42 @@ docker compose logs --tail=120 napcat astrbot
 
 https://docs.astrbot.app/deploy/astrbot/docker.html
 
-## 3. 配置聊天模型
+## 3. 为 OneBot WebSocket 配置连接 Token（必做）
+
+> WebUI Token 与 OneBot WebSocket Token 是不同凭据。不要使用相同密钥，也不要把凭据写入公开仓库。
+
+在 Ubuntu 终端生成一次 256 位随机密钥（只在本机保存/复制，勿发给他人）：
+
+~~~bash
+openssl rand -hex 32
+~~~
+
+1. 进入 AstrBot WebUI → 机器人 → 创建机器人 → OneBot v11。
+   - ID 可以填写 `daoyou`，启用。
+   - 反向 WebSocket 地址：`0.0.0.0`。
+   - 端口：`6199`。
+   - **反向 WebSocket Token：粘贴刚生成的随机密钥**。
+2. 进入 NapCat WebUI → 网络配置 → WebSocket 客户端。
+   - 启用，URL：`ws://astrbot:6199/ws`（`astrbot` 是 Docker Compose 服务名）。
+   - 消息格式：`Array`；心跳/重连间隔可使用 `5000` 毫秒。
+   - **Token：粘贴完全相同的随机密钥**，无需 `Bearer` 前缀。
+3. 保存后在 AstrBot「数据与日志 → 日志」检查是否显示适配器已连接。
+
+OneBot 端口仅用于 Compose 内部网络；不要额外映射到宿主机或公网。建议为 WebUI 分别设置独立管理密码。若 `MODE=astrbot` 已自动创建连接配置，优先检查已有连接并修改对应 Token，避免重复建多个客户端连接。
+
+上游参考：https://docs.astrbot.app/platform/aiocqhttp.html
+
+## 4. 配置聊天模型
 
 进入 AstrBot WebUI 的 LLM 配置添加 Provider：Base URL、API Key、Model ID 等均在后台设置；支持官方和兼容 API，不预置模型密钥。
 
 **先测试没有长期记忆的普通 QQ 私聊可以回复。**
 
-## 4. 必须配置白名单
+## 5. 必须配置白名单
 
 初期只允许你的 QQ 主账号使用。到 AstrBot 的访问控制设置填写你的会话/用户 ID；注意白名单留空不代表禁止所有人，请实际用未授权账号测试。先不要将道友小号拉入陌生群聊。
 
-## 5. 安装长期记忆
+## 6. 安装长期记忆
 
 安装 LivingMemory 2.7.1（优先插件市场或项目官方说明）：https://github.com/lxfight-s-Astrbot-Plugins/astrbot_plugin_livingmemory
 
@@ -48,11 +73,11 @@ https://docs.astrbot.app/deploy/astrbot/docker.html
 
 详见 https://lxfight-s-astrbot-plugins.github.io/astrbot_plugin_livingmemory/guide/getting-started
 
-## 6. 设置人格
+## 7. 设置人格
 
 将 persona/daoyou.md 作为 AstrBot 人格提示词，默认自然中文聊天，不机械输出大段条目。
 
-## 7. 验收
+## 8. 验收
 
 1. 自己的手机 QQ 主号给道友小号发送「你好」，确认有回复。
 2. 新聊一个话题，跨天或重启后测试非敏感偏好能否被记住。
